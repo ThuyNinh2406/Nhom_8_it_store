@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="15dp"
+    android:background="#A3FFFFFF"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="74dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_media_24">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/item_tensp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:text="Laptop"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="20sp">
+
+    </TextView>
+
+</LinearLayout>
