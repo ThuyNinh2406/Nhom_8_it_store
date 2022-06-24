@@ -47,7 +47,6 @@ public class SanPhamMoiAdapter extends RecyclerView.Adapter<SanPhamMoiAdapter.My
 holder.product_item.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Toast.makeText(context,"laptop",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, Product_detail_activity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

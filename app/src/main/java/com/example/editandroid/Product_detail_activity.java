@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class Product_detail_activity extends AppCompatActivity {
     int soLuong = 1;
     TextView product_name,product_price,product_description,tv_Display;
-    ImageView product_image;
+    ImageView product_image, arrow_back;
     CollapsingToolbarLayout collapsingToolbarLayout;
     FloatingActionButton btnCart;
     Button increment, decrement;
@@ -31,6 +31,7 @@ public class Product_detail_activity extends AppCompatActivity {
        product_name = findViewById(R.id.product_name);
         product_price = findViewById(R.id.product_price);
        product_image = findViewById(R.id.img_product);
+       arrow_back= findViewById(R.id.arrow_back);
        Bundle bundle= getIntent().getExtras();
        if (bundle==null){
            return;
@@ -66,6 +67,11 @@ public class Product_detail_activity extends AppCompatActivity {
 
             }
         });
-
+                arrow_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
     }
 }

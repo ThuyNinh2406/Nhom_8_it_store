@@ -5,5 +5,5 @@ import javax.net.ssl.SSLContext;
 import okhttp3.OkHttpClient;
 
 public class Utils {
-    public static final String BASE_URL="http://192.168.1.238/Banhang/";
+    public static final String BASE_URL="http://192.168.0.106/Banhang/";
 }
