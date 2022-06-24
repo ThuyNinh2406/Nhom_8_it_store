@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="#F4F0F0"
     tools:context=".IntroSlider">
 
     <androidx.viewpager.widget.ViewPager
@@ -25,27 +26,29 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:alpha=".20"
         android:layout_above="@id/layoutDots"
+        android:alpha=".20"
         android:background="@android:color/white" />
 
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="37dp"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:background="@null"
+        android:backgroundTint="#FAF8F8"
         android:text="Next"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btn_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:background="@null"
+        android:backgroundTint="#86FBF8F8"
         android:text="skip"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/black" />
 </RelativeLayout>

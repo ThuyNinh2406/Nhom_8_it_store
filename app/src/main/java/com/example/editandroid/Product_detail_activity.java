@@ -1,12 +1,14 @@
 package com.example.editandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.editandroid.model.SanPhamMoi;
@@ -14,6 +16,13 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Product_detail_activity extends AppCompatActivity {
+    //Phần giỏ hàng
+    TextView tensp,giasp,mota;
+    Button btnthem;
+    ImageView imghinhanh;
+    Toolbar toolbar;
+
+    //
     int soLuong = 1;
     TextView product_name,product_price,product_description,tv_Display;
     ImageView product_image, arrow_back;
@@ -24,6 +33,7 @@ public class Product_detail_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
+
         increment = findViewById(R.id.increment);
         decrement = findViewById(R.id.decrement);
         tv_Display = findViewById(R.id.display);
@@ -74,4 +84,6 @@ public class Product_detail_activity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
