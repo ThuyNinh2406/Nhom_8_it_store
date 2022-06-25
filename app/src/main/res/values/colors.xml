@@ -15,7 +15,7 @@
     <color name="bg_screen1">#E1FFA6DB</color>
     <color name="bg_screen2">#F8A7A7</color>
     <color name="bg_screen3">#15517A</color>
-    <color name="bg_screen4">#53F3F3</color>
+    <color name="bg_screen4">#f0d4e3</color>
 
 
     <array name="array_dot_active">

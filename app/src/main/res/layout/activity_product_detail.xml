@@ -38,7 +38,7 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:background="@color/bg_screen1"
+                        android:background="@color/bg_screen4"
                         app:layout_collapseMode="parallax"
                         tools:ignore="NewApi">
 
@@ -111,7 +111,8 @@
                         android:id="@+id/btnthemvaogiohang"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="#EDA1E3"
+                        android:backgroundTint="@color/bg_screen4"
+                        android:textColor="@color/black"
                         android:text="Thêm sản phẩm giỏ hàng">
 
                     </Button>
