@@ -26,11 +26,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Product_detail_activity extends AppCompatActivity {
-    //Phần giỏ hàng
-    TextView tensp,giasp,mota;
+
     Button btnthem;
-    ImageView imghinhanh;
-    Toolbar toolbar;
+
 
     //
     int soLuong = 1;
@@ -41,7 +39,7 @@ public class Product_detail_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-
+// ánh xạ
         increment = findViewById(R.id.increment);
         decrement = findViewById(R.id.decrement);
         tv_Display = findViewById(R.id.display);
@@ -52,25 +50,32 @@ public class Product_detail_activity extends AppCompatActivity {
        arrow_back= findViewById(R.id.arrow_back);
        btnthem = findViewById(R.id.btnthemvaogiohang);
        showCart = findViewById(R.id.showCart);
-
-       Bundle bundle= getIntent().getExtras();
-       if (bundle==null){
+// khai báo 1 biến bundle
+       Bundle bundle= getIntent().getExtras(); //lấy dl
+       if (bundle==null) //nếu ktra bundle bằng null thì nó ko lm gì
+            {
            return;
        }
-        SanPhamMoi product= (SanPhamMoi) bundle.get("product");
+       // nếu bundel có dl thì nó sẽ gán cái gtri của bundle cho đối tượng đó
+        SanPhamMoi product= (SanPhamMoi) bundle.get("product"); //tạo 1 object gán nó bằng đối tượng truyền mà bundle nhận đc
+      // gán lại gtr text của textview
        product_name.setText(product.getTensp());
        product_price.setText(product.getGiasp().toString());
+       // gán ảnh sang
         Glide.with(getApplicationContext()).load(product.getHinhanh()).into(product_image);
         product_description.setText(product.getMota());
+        // nhấn vào nút tăng
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 soLuong+=1;
+                // gán lại soluong
                 tv_Display.setText(String.valueOf(soLuong));
                 decrement.setEnabled(true);
 
             }
         });
+        // nhấn vào button giảm
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,24 +92,32 @@ public class Product_detail_activity extends AppCompatActivity {
 
             }
         });
+        // bắt sự kiện nút thêm giỏ hàng
         btnthem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+// xử lý để chuyển money từ string về long 17,999,000 vnđ
                 String[] giaStr = product.getGiasp().split(" ");
                 String[] giaNumber = giaStr[0].split(",");
                 String money = "";
+                // vòng lặp qua mảng giaNumber
                 for(String gia : giaNumber){
+                 //qua mỗi vòng lặp sẽ nối vs giá
                     money =money + gia;
                 }
+                // tạo 1 object cart
                 Cart cart = new Cart(product.getId(),product.getHinhanh(),product.getTensp(),Long.valueOf(money),soLuong);
+             // 2 lines kết nối realtime database
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference reference = database.getReference();
+                // lấy user id đang đăng nhập của app
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                reference.child("Carts")
-                        .child(uid)
-                        .child(String.valueOf(product.getId()))
-                        .setValue(cart, new DatabaseReference.CompletionListener() {
+                // gán dl lên realtimedatabase
+                reference.child("Carts") //chọn vào key có tên carts
+                        .child(uid)  //card con của userid
+                        .child(String.valueOf(product.getId())) //
+                        .setValue(cart, new DatabaseReference.CompletionListener()  // gán gtri cart cho cái dòng 118
+                        {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                         Toast.makeText(Product_detail_activity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
