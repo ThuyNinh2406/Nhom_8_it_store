@@ -44,7 +44,7 @@ public class SanPhamMoiAdapter extends RecyclerView.Adapter<SanPhamMoiAdapter.My
         holder.txtten.setText(sanPhamMoi.getTensp());
         holder.txtgia.setText(sanPhamMoi.getGiasp());
         Glide.with(context).load(sanPhamMoi.getHinhanh()).into(holder.imghinhanh);
-holder.product_item.setOnClickListener(new View.OnClickListener() {
+        holder.product_item.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(context, Product_detail_activity.class);
