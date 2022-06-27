@@ -1,7 +1,5 @@
 package com.example.editandroid.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class SanPhamMoi implements Serializable {
@@ -11,6 +9,25 @@ public class SanPhamMoi implements Serializable {
     String giasp;
     String mota;
     int loai;
+    float rating;
+
+    public float getRating() {
+        return rating;
+    }
+
+    public SanPhamMoi(int id, String tensp, String hinhanh, String giasp, String mota, int loai, float rating) {
+        this.id = id;
+        this.tensp = tensp;
+        this.hinhanh = hinhanh;
+        this.giasp = giasp;
+        this.mota = mota;
+        this.loai = loai;
+        this.rating = rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 
     public int getId() {
         return id;

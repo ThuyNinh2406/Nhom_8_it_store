@@ -29,8 +29,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     List<Cart> cartList;
     int soLuong = 1;
     IClickCheckBoxItem iClickCheckBoxItem;
-
+//
     public CartAdapter(Context context, List<Cart> cartList,IClickCheckBoxItem iClickCheckBoxItem) {
+        // đối tượng của lớp đấy gán nó bằng cái tham số truyền vào
         this.context = context;
         this.cartList = cartList;
         this.iClickCheckBoxItem = iClickCheckBoxItem;
@@ -39,12 +40,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // gán cái layout của cartadapter bằng cái cart item ở bên layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item,parent,false);
+        //truyền cái view vào cartviewholder
         return new CartViewHolder(view);
     }
 
     @Override
+    // dùng để set lại dl mình cần
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
+       // khai báo cart , lấy đúng vị trí của cart trong cartlisst
         Cart cart = cartList.get(position);
 
         if(cart == null){
@@ -54,6 +59,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.productName.setText(cart.getProductName());
         holder.productAmount.setText(String.valueOf(cart.getAmount()));
         Glide.with(context).load(cart.getProductImage()).into(holder.productImage);
+
         holder.increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,8 +69,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // gọi đến hàm onClickDecrementItem trong interface
                 iClickCheckBoxItem.onClickDecrementItem(holder.productAmount,cart, holder.checkBox);
-
             }
         });
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +98,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
         return 0;
     }
-
     public class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
         ImageView increment, decrement,delete_product;

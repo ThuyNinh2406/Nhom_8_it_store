@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class SanPhamMoiAdapter extends RecyclerView.Adapter<SanPhamMoiAdapter.My
         holder.txtten.setText(sanPhamMoi.getTensp());
         holder.txtgia.setText(sanPhamMoi.getGiasp());
         Glide.with(context).load(sanPhamMoi.getHinhanh()).into(holder.imghinhanh);
+        holder.ratingBar.setRating(sanPhamMoi.getRating());
         holder.product_item.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -53,6 +55,7 @@ public class SanPhamMoiAdapter extends RecyclerView.Adapter<SanPhamMoiAdapter.My
         Bundle bundle = new Bundle();
         bundle.putSerializable("product",  sanPhamMoi);
         intent.putExtras(bundle);
+        // dùng intent để chuyển activity kèm bundle
         context.startActivity(intent);
     }
 });
@@ -68,12 +71,14 @@ public class SanPhamMoiAdapter extends RecyclerView.Adapter<SanPhamMoiAdapter.My
         TextView txtgia,txtten;
         ImageView imghinhanh;
 CardView product_item;
+RatingBar ratingBar;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             txtgia = itemView.findViewById(R.id.itemsp_gia);
             txtten = itemView.findViewById(R.id.itemsp_ten);
             imghinhanh= itemView.findViewById(R.id.itemsp_image);
 product_item = itemView.findViewById(R.id.product_item);
+            ratingBar = itemView.findViewById(R.id.ratingBar21);
         }
     }
 }

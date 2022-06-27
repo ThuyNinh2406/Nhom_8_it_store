@@ -6,7 +6,7 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     app:cardCornerRadius="4dp"
-    android:layout_width="160dp"
+    android:layout_width="200dp"
     android:id="@+id/product_item"
     android:layout_height="wrap_content">
 
@@ -51,6 +51,18 @@
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="16dp"
                 android:textStyle="bold"></TextView>
+            <RatingBar
+                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="20dp"
+                android:numStars="5"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/ratingBar21"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:rating="3.5"
+                style="?android:attr/ratingBarStyleSmall"
+                android:stepSize="0.1" />
 
         </LinearLayout>
 

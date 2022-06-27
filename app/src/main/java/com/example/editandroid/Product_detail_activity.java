@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -30,11 +31,12 @@ public class Product_detail_activity extends AppCompatActivity {
     Button btnthem;
 
 
-    //
+    // khai báo biến cần dùng
     int soLuong = 1;
     TextView product_name,product_price,product_description,tv_Display;
     ImageView product_image, arrow_back,showCart;
     Button increment, decrement;
+    RatingBar ratingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class Product_detail_activity extends AppCompatActivity {
        arrow_back= findViewById(R.id.arrow_back);
        btnthem = findViewById(R.id.btnthemvaogiohang);
        showCart = findViewById(R.id.showCart);
+        ratingBar = findViewById(R.id.ratingBar21);
+
 // khai báo 1 biến bundle
        Bundle bundle= getIntent().getExtras(); //lấy dl
        if (bundle==null) //nếu ktra bundle bằng null thì nó ko lm gì
@@ -57,19 +61,18 @@ public class Product_detail_activity extends AppCompatActivity {
            return;
        }
        // nếu bundel có dl thì nó sẽ gán cái gtri của bundle cho đối tượng đó
-        SanPhamMoi product= (SanPhamMoi) bundle.get("product"); //tạo 1 object gán nó bằng đối tượng truyền mà bundle nhận đc
+        SanPhamMoi product= (SanPhamMoi) bundle.get("product");
       // gán lại gtr text của textview
        product_name.setText(product.getTensp());
        product_price.setText(product.getGiasp().toString());
+        ratingBar.setRating(product.getRating());
        // gán ảnh sang
         Glide.with(getApplicationContext()).load(product.getHinhanh()).into(product_image);
         product_description.setText(product.getMota());
-        // nhấn vào nút tăng
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 soLuong+=1;
-                // gán lại soluong
                 tv_Display.setText(String.valueOf(soLuong));
                 decrement.setEnabled(true);
 
@@ -85,24 +88,18 @@ public class Product_detail_activity extends AppCompatActivity {
                 }
                 else{
                     decrement.setEnabled(true);
-
                 }
-
                 tv_Display.setText(String.valueOf(soLuong));
 
             }
         });
-        // bắt sự kiện nút thêm giỏ hàng
         btnthem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-// xử lý để chuyển money từ string về long 17,999,000 vnđ
                 String[] giaStr = product.getGiasp().split(" ");
                 String[] giaNumber = giaStr[0].split(",");
                 String money = "";
-                // vòng lặp qua mảng giaNumber
                 for(String gia : giaNumber){
-                 //qua mỗi vòng lặp sẽ nối vs giá
                     money =money + gia;
                 }
                 // tạo 1 object cart
@@ -110,13 +107,11 @@ public class Product_detail_activity extends AppCompatActivity {
              // 2 lines kết nối realtime database
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference reference = database.getReference();
-                // lấy user id đang đăng nhập của app
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                // gán dl lên realtimedatabase
-                reference.child("Carts") //chọn vào key có tên carts
-                        .child(uid)  //card con của userid
+                reference.child("Carts")
+                        .child(uid)
                         .child(String.valueOf(product.getId())) //
-                        .setValue(cart, new DatabaseReference.CompletionListener()  // gán gtri cart cho cái dòng 118
+                        .setValue(cart, new DatabaseReference.CompletionListener()
                         {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
@@ -125,6 +120,7 @@ public class Product_detail_activity extends AppCompatActivity {
                 });
             }
         });
+        // button back
         arrow_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +130,9 @@ public class Product_detail_activity extends AppCompatActivity {
         showCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(Product_detail_activity.this,CartActivity.class);
+
                 Bundle bundle1 = new Bundle();
                 bundle1.putInt("idProduct",product.getId());
                 intent.putExtras(bundle1);
@@ -142,6 +140,4 @@ public class Product_detail_activity extends AppCompatActivity {
             }
         });
     }
-
-
 }

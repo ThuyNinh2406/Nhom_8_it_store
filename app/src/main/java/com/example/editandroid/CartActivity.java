@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -28,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+// khia báo biến cần dùng
 public class CartActivity extends AppCompatActivity {
     private RecyclerView rcv_cart;
     private CartAdapter cartAdapter;
@@ -39,6 +41,7 @@ public class CartActivity extends AppCompatActivity {
     private int idProduct;
     private long money;
     @Override
+    // để hiển thị
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
@@ -48,35 +51,34 @@ public class CartActivity extends AppCompatActivity {
         cartEmpty = findViewById(R.id.cartEmpty);
         cartPay = findViewById(R.id.cartPay);
         arrow_back = findViewById(R.id.arrow_back);
-        //bundle
+        // khai báo bundle và lấy dl
         Bundle bundle = getIntent().getExtras();
         idProduct = (int) bundle.get("idProduct");
-        // setup recyclerView
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         rcv_cart.setLayoutManager(linearLayoutManager);
-
         cartList = new ArrayList<>();
-        if(cartList.size() == 0){
+        if(cartList.size() == 0)
+        {
             cartEmpty.setVisibility(View.VISIBLE);
             cartPay.setVisibility(View.GONE);
         }
         cartAdapter = new CartAdapter(getApplicationContext(), cartList, new IClickCheckBoxItem() {
             @Override
             public void onClickCheckBoxItem(Cart cart, CheckBox b) {
-                if(cart.getAmount() == 0){
-                    b.setChecked(false);
-                    return;
-                }
-                else{
-                    if(b.isChecked()){
-                        money += (cart.getAmount()*cart.getProductPrice());
-                        totalMoney.setText(String.valueOf(money));
-                    }
-                    else{
-                        money -= (cart.getAmount()*cart.getProductPrice());
-                        totalMoney.setText(String.valueOf(money));
-                    }
-                }
+//                if(cart.getAmount() == 0){
+//                    b.setChecked(false);
+//                    return;
+//                }
+//                else{
+//                    if(b.isChecked()){
+//                        money += (cart.getAmount()*cart.getProductPrice());
+//                        totalMoney.setText(String.valueOf(money));
+//                    }
+//                    else{
+//                        money -= (cart.getAmount()*cart.getProductPrice());
+//                        totalMoney.setText(String.valueOf(money));
+//                    }
+//                }
             }
 
             @Override
@@ -90,20 +92,19 @@ public class CartActivity extends AppCompatActivity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference reference = database.getReference();
                 reference.child("Carts").child(uid).child(String.valueOf(cart.getId())).child("amount").setValue(soluong);
-                if(cart.getAmount() == 0){
-                    b.setChecked(false);
-                    return;
-                }
-                else{
-                    if(b.isChecked()){
-                        money = 0;
-                        money += (soluong*cart.getProductPrice());
-                        totalMoney.setText(String.valueOf(money));
-                    }
-                }
+//                if(cart.getAmount() == 0){
+//                    b.setChecked(false);
+//                    return;
+//                }
+//                else{
+//                    if(b.isChecked()){
+//                        money = 0;
+//                        money += (soluong*cart.getProductPrice());
+//                        totalMoney.setText(String.valueOf(money));
+//                    }
+//                }
 
             }
-
             @Override
             public void onClickIncrementItem(TextView amount ,Cart cart,CheckBox b) {
 
@@ -115,11 +116,11 @@ public class CartActivity extends AppCompatActivity {
                 DatabaseReference reference = database.getReference();
                 reference.child("Carts").child(uid).child(String.valueOf(cart.getId())).child("amount").setValue(soluong);
 
-                if(b.isChecked()){
-                    money = 0;
-                    money += (soluong*cart.getProductPrice());
-                    totalMoney.setText(String.valueOf(money));
-                }
+//                if(b.isChecked()){
+//                    money = 0;
+//                    money += (soluong*cart.getProductPrice());
+//                    totalMoney.setText(String.valueOf(money));
+//                }
             }
             @Override
             public  void onClickDeleteItem(Cart cart){
@@ -130,6 +131,7 @@ public class CartActivity extends AppCompatActivity {
                 alertDialog.setNegativeButton("Không", null);
                 alertDialog.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
+
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference reference = database.getReference();
@@ -140,10 +142,18 @@ public class CartActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+        // set adpter cho recycle view
         rcv_cart.setAdapter(cartAdapter);
+
         getListProductInTheCart();
 
+       new Handler().postDelayed(new Runnable() {
+           @Override
+           public void run() {
 
+
+           }
+       },400);
         arrow_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,26 +161,35 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
+
+    // lấy cái product trong carts trên firebase
     private void getListProductInTheCart(){
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference();
         reference.child("Carts").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
+            // nếu dl tồn tại
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cartList.clear();
+                money = 0;
+                //lấy list product trên carts về và thêm vào cart list
                 for(DataSnapshot data : snapshot.getChildren()){
+                    // khai báo cart và gán dl trả về từ database về cho cart
                     Cart cart = data.getValue(Cart.class);
                     cartList.add(cart);
+                    money+= cart.getAmount()*cart.getProductPrice();
+
                 }
+                totalMoney.setText(String.valueOf(money));
                 if(cartList.size()>0){
                     cartEmpty.setVisibility(View.GONE);
                     cartPay.setVisibility(View.VISIBLE);
                 }
-
+// lắng nghe sự thay đổi của dl nếu nó thay đổi thì nó sẽ update lại cart adapter
                 cartAdapter.notifyDataSetChanged();
             }
-
+//
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
